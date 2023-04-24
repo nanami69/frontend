@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
     data() {
         return {
@@ -45,8 +46,20 @@ export default {
     },
     methods: {
         submitForm() {
-            // フォームの送信処理
-            // axiosなどを使ってバックエンドにフォームの内容を送信する
+            const instance = axios.create({
+                baseURL: 'http://localhost:8080'
+            });
+            // バックエンドにフォームの内容を送信する
+            instance.post('/register-cinema', {
+                address: this.address
+            })
+            .then((response) => {
+                console.log(response.data.message)
+                // マップにピンを立てる処理を書く
+            })
+            .catch((error) => {
+                console.log(error);
+            });
             console.log('submit form', this.name, this.address, this.photo, this.comment);
             // 送信後にフォームを初期化する
             this.name = '';
