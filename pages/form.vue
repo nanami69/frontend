@@ -54,8 +54,16 @@ export default {
                 address: this.address
             })
             .then((response) => {
-                console.log(response.data.message)
-                // マップにピンを立てる処理を書く
+                console.log(response.data.lat)
+                console.log(response.data.lng)
+                // aboutページにリダイレクトしつつ、パラメータとしてlatとlngを渡す
+                this.$router.push({
+                    name: 'about',
+                    params: {
+                        lat: response.data.lat,
+                        lng: response.data.lng
+                    }
+                })
             })
             .catch((error) => {
                 console.log(error);
