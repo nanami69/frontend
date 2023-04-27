@@ -51,7 +51,10 @@ export default {
             });
             // バックエンドにフォームの内容を送信する
             instance.post('/register-cinema', {
-                address: this.address
+                name: this.name,
+                address: this.address,
+                photo: this.photo,
+                comment: this.comment
             })
             .then((response) => {
                 console.log(response.data.lat)
@@ -61,7 +64,9 @@ export default {
                     name: 'about',
                     params: {
                         lat: response.data.lat,
-                        lng: response.data.lng
+                        lng: response.data.lng,
+                        name: response.data.name,
+                        comment: response.data.comment
                     }
                 })
             })

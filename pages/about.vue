@@ -22,17 +22,20 @@ export default {
     goToFormPage() {
       this.$router.push('/form')
     },
-    addPin(lat, lng) {
-      const position = [lat, lng];
+    addPin(lat, lng, name, comment) {
+      const cinemaInfo = [lat, lng, name, comment];
       // MapViewコンポーネントに位置情報をemitする
-      this.$refs.map.$emit('addMarker', position);
+      this.$refs.map.$emit('addMarker', cinemaInfo);
     }
   },
   mounted() {
     const lat = this.$route.params.lat;
     const lng = this.$route.params.lng;
-    if (lat && lng) {
-      this.addPin(lat, lng);
+    const name = this.$route.params.name;
+    const comment = this.$route.params.comment;
+
+    if (lat && lng && name && comment) {
+      this.addPin(lat, lng, name, comment);
     }
   }
 }

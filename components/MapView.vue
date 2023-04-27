@@ -14,12 +14,15 @@
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
     // 親コンポーネントからemitされた位置情報を受け取り、マーカーを追加
-    this.$on('addMarker', (position) => {
+    this.$on('addMarker', (cinemaInfo) => {
+      var position = [cinemaInfo[0], cinemaInfo[1]]
       if (this.mapObject) {
-        L.marker(position).addTo(this.mapObject);
+        var marker = L.marker(position).addTo(this.mapObject); // markerオブジェクトを作成
+        marker.bindPopup(cinemaInfo[2]).openPopup(); // markerオブジェクトに対してbindPopupメソッドを使用
       } else {
         this.$once('mounted', () => {
-          L.marker(position).addTo(this.mapObject);
+          var marker = L.marker(position).addTo(this.mapObject); // markerオブジェクトを作成
+          marker.bindPopup(cinemaInfo[2]).openPopup(); // markerオブジェクトに対してbindPopupメソッドを使用
         });
       }
     });
