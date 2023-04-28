@@ -15,14 +15,15 @@
 
     // 親コンポーネントからemitされた位置情報を受け取り、マーカーを追加
     this.$on('addMarker', (cinemaInfo) => {
-      var position = [cinemaInfo[0], cinemaInfo[1]]
+      var [lat, lng, name, comment] = cinemaInfo;
+      var position = [lat, lng]
       if (this.mapObject) {
         var marker = L.marker(position).addTo(this.mapObject); // markerオブジェクトを作成
-        marker.bindPopup(cinemaInfo[2]).openPopup(); // markerオブジェクトに対してbindPopupメソッドを使用
+        marker.bindPopup(`<h3>${name}</h3><p>${comment}</p>`).openPopup();
       } else {
         this.$once('mounted', () => {
           var marker = L.marker(position).addTo(this.mapObject); // markerオブジェクトを作成
-          marker.bindPopup(cinemaInfo[2]).openPopup(); // markerオブジェクトに対してbindPopupメソッドを使用
+          marker.bindPopup(`<h3>${name}</h3><p>${comment}</p>`).openPopup();
         });
       }
     });
