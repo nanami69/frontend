@@ -47,18 +47,22 @@ export default {
     methods: {
         submitForm() {
             const instance = axios.create({
-                baseURL: 'http://localhost:8080'
+                baseURL: 'http://localhost:8080',
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
             });
+            const formData = new FormData();
+            formData.append('name', this.name);
+            formData.append('address', this.address);
+            formData.append('photo', this.photo);
+            formData.append('comment', this.comment);
             // バックエンドにフォームの内容を送信する
-            instance.post('/register-cinema', {
-                name: this.name,
-                address: this.address,
-                photo: this.photo,
-                comment: this.comment
-            })
+            instance.post('/register-cinema', formData)
             .then((response) => {
                 console.log(response.data.lat)
                 console.log(response.data.lng)
+                // console.log(response.data.photo)
                 // aboutページにリダイレクトしつつ、パラメータとしてlatとlngを渡す
                 this.$router.push({
                     name: 'about',
@@ -66,6 +70,7 @@ export default {
                         lat: response.data.lat,
                         lng: response.data.lng,
                         name: response.data.name,
+                        photo: response.data.photo,
                         comment: response.data.comment
                     }
                 })
