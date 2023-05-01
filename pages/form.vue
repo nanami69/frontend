@@ -20,7 +20,7 @@
                 <textarea v-model="comment" v-on:input="checkComment"></textarea>
                 <div v-if="commentError" style="color:red;">{{ commentError }}</div>
             </label>
-            <button type="submit" :disabled="hasErrors">送信</button>
+            <button type="submit" v-bind:disabled="isValid">送信</button>
         </form>
     </div>
 </template>
@@ -40,8 +40,10 @@ export default {
         }
     },
     computed: {
-        hasErrors() {
-            return !!this.nameError || !!this.addressError || !!this.commentError;
+        isValid() {
+            const hasErrors = !!this.nameError || !!this.addressError || !!this.commentError;
+            const isFilled = !!this.name && !!this.address;
+            return hasErrors || !isFilled;
         }
     },
     methods: {
