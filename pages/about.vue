@@ -3,7 +3,7 @@
     <h1>About Page</h1>
     <p>This is the about page</p>
     <Button @click="goToFormPage">Go to Form Page</Button>
-    <map-view ref="map"></map-view>
+    <map-view @mapInitialized="onMapInitialized" ref="map"></map-view>
   </div>
 </template>
 
@@ -22,20 +22,37 @@ export default {
     goToFormPage() {
       this.$router.push('/form')
     },
-    addPin(lat, lng, name, comment) {
-      const cinemaInfo = [lat, lng, name, comment];
-      // MapViewコンポーネントに位置情報をemitする
-      this.$refs.map.$emit('addMarker', cinemaInfo);
+    addPin(lat, lng, name, comment, photo) {
+      const cinemaInfo = [lat, lng, name, comment,photo];
+      if (this.isMapInitialized) {
+        this.$refs.map.addMarker(cinemaInfo);
+      } else {
+        this.pendingMarker = cinemaInfo;
+      }
+    },
+    onMapInitialized() {
+      this.isMapInitialized = true;
+      if (this.pendingMarker) {
+        this.$refs.map.addMarker(this.pendingMarker);
+        this.pendingMarker = null;
+      }
     }
+  },
+  data() {
+    return {
+      isMapInitialized: false,
+      pendingMarker: null
+    };
   },
   mounted() {
     const lat = this.$route.params.lat;
     const lng = this.$route.params.lng;
     const name = this.$route.params.name;
     const comment = this.$route.params.comment;
+    const photo = this.$route.params.photo;
 
-    if (lat && lng && name && comment) {
-      this.addPin(lat, lng, name, comment);
+    if (lat && lng && name ) {
+      this.addPin(lat, lng, name, comment, photo);
     }
   }
 }
