@@ -25,7 +25,7 @@ export default {
       var marker = L.marker(position).addTo(this.mapObject); // markerオブジェクトを作成
       marker
         .bindPopup(
-          `<h3>${name}</h3><p>${comment}</p><img :src="'data:image/jpeg;base64,' + ${photo}" alt="cinema photo">`
+          `<h3>${name}</h3><p>${comment}</p><img src="data:image/jpeg;base64,${photo}" alt="cinema photo" width="200px">`
         )
         .openPopup();
     },
